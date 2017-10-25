@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  web:
+    build: ./web
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./web/:/usr/src/app/web
+    command: bash -c "sleep 3 && python manage.py runserver 0.0.0.0:8000"  
+
+  postgres:
+    ports:
+      - "5432:5432"

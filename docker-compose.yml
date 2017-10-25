@@ -1,0 +1,52 @@
+version: '2'
+
+services:
+  web:
+    restart: always
+    build: ./web
+    expose:
+      - "8000"
+    # links:
+    #   - postgres:postgres
+    #   - redis:redis
+    volumes:
+      - ./web:/usr/src/app/web
+    env_file: .env
+    command: /usr/local/bin/gunicorn myproject.wsgi:application -w 2 -b :8000
+    depends_on:
+      - postgres
+      - redis
+
+  nginx:
+    restart: always
+    build: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - /www/static
+    volumes_from:
+      - web
+    depends_on:
+      - web
+
+  data:
+    image: postgres:10.0
+    volumes:
+      - /var/lib/postgresql
+    command: "true"
+
+  postgres:
+    restart: always
+    build: ./postgresql
+    volumes_from:
+      - data
+    expose:
+      - "5432"
+
+  redis:
+    restart: always
+    image: redis:3.2.11
+    ports:
+      - "6379"
+    volumes:
+      - ./redisdata:/data
