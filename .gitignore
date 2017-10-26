@@ -1,1 +1,5 @@
 .env
+/doc
+
+# datebase
+/web/db.sqlite3
