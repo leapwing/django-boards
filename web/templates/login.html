@@ -13,6 +13,7 @@ Log in to Django Boards
         <form method="post" novalidate>
           {% csrf_token %}
           {% include 'includes/form.html' %}
+          <input type="hidden" name="next" value="{{ next }}">
           <button type="submit" class="btn btn-primary btn-block">Log in</button>
         </form>
       </div>
