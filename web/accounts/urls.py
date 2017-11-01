@@ -1,10 +1,10 @@
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 
-from . import views
+from . import views as accounts_views
 
 urlpatterns = [
-    url(r'^signup/$', views.signup, name='signup'),
+    url(r'^signup/$', accounts_views.signup, name='signup'),
     url(r'^login/$', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
     url(r'^reset/$', auth_views.PasswordResetView.as_view(
@@ -25,4 +25,5 @@ urlpatterns = [
         name='password_change'),
     url(r'^settings/password/done/$', auth_views.PasswordChangeDoneView.as_view(template_name='password_change_done.html'),
         name='password_change_done'),
+    url(r'^settings/account/$', accounts_views.UserUpdateView.as_view(), name='my_account'),
 ]
